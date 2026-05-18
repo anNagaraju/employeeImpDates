@@ -1,0 +1,10 @@
+apiVersion: solution.sap/v1
+kind: Solution
+
+metadata:
+  name: employee-celebrations-c9093
+  version: 1.0.0
+  description: Application to maintain employee birthday and work anniversary dates with a celebration wishing page for portal integration
+
+assets:
+  - ref: ./assets/employee-celebrations-cap/asset.yaml
