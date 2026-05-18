@@ -1,0 +1,38 @@
+apiVersion: asset.sap/v1
+kind: Asset
+
+metadata:
+  name: employee-celebrations-cap
+  version: 1.0.0
+  description: CAP application for employee birthday and work anniversary management with portal-embeddable wishing page
+
+type: cap-app
+
+container:
+  buildPath: .
+  port: 4004
+
+provides:
+  protocols: [odata-v4, rest]
+
+database:
+  type: sqlite
+
+probes:
+  startup:
+    path: /
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 18
+  liveness:
+    path: /
+    initialDelaySeconds: 30
+    periodSeconds: 15
+    timeoutSeconds: 5
+    failureThreshold: 3
+  readiness:
+    path: /
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
