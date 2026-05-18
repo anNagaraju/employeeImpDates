@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+    <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="PublicService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <Annotation Term="Core.Links">
+        <Collection>
+          <Record>
+            <PropertyValue Property="rel" String="author"/>
+            <PropertyValue Property="href" String="https://cap.cloud.sap"/>
+          </Record>
+        </Collection>
+      </Annotation>
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="Employees" EntityType="PublicService.Employees"/>
+        <EntitySet Name="Wishes" EntityType="PublicService.Wishes">
+          <NavigationPropertyBinding Path="employee" Target="Employees"/>
+        </EntitySet>
+        <FunctionImport Name="TodayCelebrations" Function="PublicService.TodayCelebrations"/>
+        <FunctionImport Name="UpcomingCelebrations" Function="PublicService.UpcomingCelebrations"/>
+      </EntityContainer>
+      <EntityType Name="Employees">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="name" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="department" Type="Edm.String" MaxLength="100"/>
+        <Property Name="photoUrl" Type="Edm.String" MaxLength="500"/>
+        <Property Name="birthday" Type="Edm.Date"/>
+        <Property Name="hireDate" Type="Edm.Date"/>
+      </EntityType>
+      <EntityType Name="Wishes">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <NavigationProperty Name="employee" Type="PublicService.Employees" Nullable="false">
+          <ReferentialConstraint Property="employee_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="employee_ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="senderName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="message" Type="Edm.String" MaxLength="500"/>
+        <Property Name="celebrationType" Type="Edm.String" MaxLength="20"/>
+      </EntityType>
+      <ComplexType Name="return_PublicService_TodayCelebrations">
+        <Property Name="ID" Type="Edm.Guid"/>
+        <Property Name="name" Type="Edm.String"/>
+        <Property Name="department" Type="Edm.String"/>
+        <Property Name="photoUrl" Type="Edm.String"/>
+        <Property Name="celebrationType" Type="Edm.String"/>
+        <Property Name="yearsCount" Type="Edm.Int32"/>
+        <Property Name="wishCount" Type="Edm.Int32"/>
+      </ComplexType>
+      <ComplexType Name="return_PublicService_UpcomingCelebrations">
+        <Property Name="ID" Type="Edm.Guid"/>
+        <Property Name="name" Type="Edm.String"/>
+        <Property Name="department" Type="Edm.String"/>
+        <Property Name="photoUrl" Type="Edm.String"/>
+        <Property Name="celebrationType" Type="Edm.String"/>
+        <Property Name="yearsCount" Type="Edm.Int32"/>
+        <Property Name="daysUntil" Type="Edm.Int32"/>
+        <Property Name="celebrationDate" Type="Edm.String"/>
+        <Property Name="wishCount" Type="Edm.Int32"/>
+      </ComplexType>
+      <Function Name="TodayCelebrations" IsBound="false" IsComposable="false">
+        <ReturnType Type="Collection(PublicService.return_PublicService_TodayCelebrations)" Nullable="true"/>
+      </Function>
+      <Function Name="UpcomingCelebrations" IsBound="false" IsComposable="false">
+        <ReturnType Type="Collection(PublicService.return_PublicService_UpcomingCelebrations)" Nullable="true"/>
+      </Function>
+      <Annotations Target="PublicService.EntityContainer/Employees">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="PublicService.Employees/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="PublicService.Wishes/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="PublicService.Wishes/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="PublicService.Wishes/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="PublicService.Wishes/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="PublicService.Wishes/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>
