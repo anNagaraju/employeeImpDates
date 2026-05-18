@@ -1,0 +1,9 @@
+ID,name,email,department,birthday,hireDate,photoUrl,githubUrl
+e1000000-0000-0000-0000-000000000001,Alice Johnson,alice@company.com,Engineering,1990-05-13,2019-05-13,,
+e1000000-0000-0000-0000-000000000002,Bob Williams,bob@company.com,HR,1985-05-13,2021-03-15,,
+e1000000-0000-0000-0000-000000000003,Carol Smith,carol@company.com,Finance,1992-05-14,2020-07-01,,
+e1000000-0000-0000-0000-000000000004,David Brown,david@company.com,Sales,1988-05-14,2016-05-14,,
+e1000000-0000-0000-0000-000000000005,Emma Davis,emma@company.com,Engineering,1995-05-16,2022-01-10,,
+e1000000-0000-0000-0000-000000000006,Frank Miller,frank@company.com,Marketing,1987-05-18,2015-05-18,,
+e1000000-0000-0000-0000-000000000007,Grace Wilson,grace@company.com,HR,1991-06-20,2018-09-01,,
+e1000000-0000-0000-0000-000000000008,Henry Moore,henry@company.com,Finance,1983-07-04,2013-07-04,,
