@@ -1,0 +1,47 @@
+{
+  "name": "employee-celebrations-cap",
+  "version": "1.0.0",
+  "dependencies": {
+    "@cap-js/sqlite": "^2.4",
+    "@sap/cds": "^9"
+  },
+  "devDependencies": {
+    "@cap-js/cds-test": "^1.0.1",
+    "@sap/cds-dk": "^9.9.1",
+    "jest": "^30.4.2"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "dev:cap": "cds watch",
+    "dev:ui": "npm run dev --workspace=ui",
+    "build": "npm run build --workspace=ui && cds build --production",
+    "custom_build": "npm install --include=dev && npm run build && ./node_modules/.bin/cds deploy --to sqlite:./db.sqlite && cd gen/srv && npm install --omit=dev --legacy-peer-deps && cd ../.. && mkdir -p /outputs && cp -r gen/srv/. /outputs/ && cp db.sqlite /outputs/db.sqlite && mkdir -p /outputs/app && cp -r app/. /outputs/app/ && mkdir -p /outputs/db && cp -r db/. /outputs/db/",
+    "preview": "npm run build --workspace=ui && cds watch",
+    "test": "CDS_CONFIG=.cdsrc-test.json jest --testEnvironment node --forceExit"
+  },
+  "private": true,
+  "cds": {
+    "requires": {
+      "auth": "dummy",
+      "db": {
+        "kind": "sqlite",
+        "credentials": {
+          "url": "/data/db.sqlite"
+        }
+      }
+    },
+    "test": {
+      "requires": {
+        "db": {
+          "kind": "sqlite",
+          "credentials": {
+            "url": ":memory:"
+          }
+        }
+      }
+    }
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
